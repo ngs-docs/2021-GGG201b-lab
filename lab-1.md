@@ -112,7 +112,7 @@ This creates the file `ecoli-rel606.fa.gz.
 
 Now run:
 ```
-snakemake -p -j 1 --use-conda sam_to_bam
+snakemake -p -j 1 --use-conda map_reads
 snakemake -p -j 1 --use-conda sam_to_bam
 snakemake -p -j 1 --use-conda sort_bam
 snakemake -p -j 1 --use-conda call_variants
