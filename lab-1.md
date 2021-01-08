@@ -9,7 +9,7 @@ tags: ggg, ggg2021, ggg201b
 ## Friday Lab Outline - 1/10
 
 * introductions and a short presentation
-* [syllabus](https://hackmd.io/YaM6z84wQeK619cSeLJ2tg)
+* [syllabus](https://hackmd.io/wnAlw5Y6QRu4kfWiri9Cwg?view)
 * our first workflow: variant calling!!!!!!
 
 ## Day 1: Variant Calling
@@ -54,65 +54,95 @@ nano -ET4 Snakefile
 to examine them. To exit type `Control + x`
 
 * what is the structure of a rule?
+  * 'rule' block
+  * indentation
+  * "shell" and "conda" as well as others
 * what does shell mean here?
+* what is the "conda" block? we'll talk about that in a sec...
 
 ----
 
 Let's run one! Try the following command:
 ```
-snakemake -p map_reads
+snakemake -p -j 1 map_reads
 ```
 
 This says, "run the shell command in the Snakefile under the 'map_reads' rule".
 
 `-p` means "show the command that you're running.
 
+`-j 1`
+
 It will fail! Why?
 
-Because we don't have the prerequisite files! We need to download some stuff and prepare it.
+Because we don't have the minimap software installed.
+
+If we say `--use-conda`, snakemake will automatically install the right
+software (specified in `env-minimap.yml`).
+
+Let's try that:
+
+```
+snakemake -p -j 1 map_reads --use-conda
+```
+
+---
+
+This also fails! Why?
+
+Because we don't have any data! We need to download some stuff and prepare it.
 
 Start with
 
 ```
-snakemake -p download_data
+snakemake -p -j 1 --use-conda download_data
 ```
 
 ahh... cool green!
 
-What does this command do?
+What does this command do? tl;dr creates the file `SRR2584857_1.fastq.gz`.
+(What's in this file?)
 
 Now run some more -- one at a time.
 
 ```
-snakemake -p download_genome
-snakemake -p uncompress_genome
-snakemake -p index_genome_bwa
-snakemake -p map_reads
-snakemake -p index_genome_samtools
-snakemake -p samtools_import
-snakemake -p samtools_sort
-snakemake -p samtools_index_sorted
-snakemake -p samtools_mpileup
-snakemake -p make_vcf
+snakemake -p -j 1 --use-conda download_genome
+```
+This creates the file `ecoli-rel606.fa.gz.
+
+Now run:
+```
+snakemake -p -j 1 --use-conda sam_to_bam
+snakemake -p -j 1 --use-conda sam_to_bam
+snakemake -p -j 1 --use-conda sort_bam
+snakemake -p -j 1 --use-conda call_variants
 ```
 
 This runs a complete (if fairly simple :) variant calling workflow.
 
-View the results with
+The result is a file called `SRR2584857_1.ecoli-rel606.vcf`.
+
+View the results in the RStudio window by clicking on that file.
+
+You can also go to the shell prompt and execute:
 
 ```
-samtools tview -p ecoli:4314717 --reference ecoli-rel606.fa SRR2584857.sorted.bam
+samtools index SRR2584857_1.ecoli-rel606.bam.sorted
+samtools tview -p ecoli:4314717 --reference ecoli-rel606.fa SRR2584857_1.ecoli-rel606.bam.sorted
 ```
+which will show you the actual aligned reads.
 
 A few things to discuss:
 
 * these are just shell commands, with a bit of "decoration". You could run them yourself if you wanted!
 * order of the rules in the Snakefile doesn't matter
 * `snakemake -p` prints the command
+* `-j 1` says "use only one CPU"
+* `--use-conda` says to install software as specified.
 * red if it fails (try breaking one command :)
-* it's all case sensitive
-* tabs and spacing matters...
-* ...what are we actually doing here?
+* it's all case sensitive...
+* tabs and spacing matter.
+* why are the files named the way they are?
 
 Some foreshadowing:
 
@@ -121,15 +151,10 @@ Some foreshadowing:
 
 ### Upgrading our Snakefile by adding 'output:'
 
-Run 
-```
-nano -ET4 Snakefile
-```
-(reminder, CTRL-X, yes, to save!)
-
+Edit `Snakefile` and add:
 and add `output: "SRR2584857_1.fastq.gz"` to the `download_data` rule.
 
-Now try running the rule: `snakemake -p download_data`
+Now try running the rule: `snakemake -p SRR2584857_1.fastq.gz`
 
 Run it again. Hey look, it doesn't do anything! Why??
 
@@ -141,7 +166,12 @@ To the `map_reads` rule, add:
 
 `input: "SRR2584857_1.fastq.gz", "ecoli-rel606.fa"`
 
-What does this do?
+What does this do? (And does it work?)
+
+### Rewrite the rule shell blocks to use `{input}` and `{output}`
+
+For each rule where you have defined `input:` and `output:` you can replace the
+filenames in the `shell:` block with `{input}` and `{output}` as appropriate.
 
 ### End of class recap
 
@@ -149,5 +179,3 @@ What does this do?
 * the rules specify steps in the workflow
 * At the moment (and in general), they run shell commands
 * You can "decorate" the rules to tell snakemake how they depend on each other.
-
-
