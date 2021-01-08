@@ -1,6 +1,6 @@
-# 2020-GGG201b-lab
+# 2021-GGG201b-lab
 
-Materials from Intro to Bioinformatics lab, Winter offering at UC Davis (Jan-Mar 2020)
+Materials from Intro to Bioinformatics lab, Winter offering at UC Davis (Jan-Mar 2021)
 
 <p xmlns:dct="http://purl.org/dc/terms/" xmlns:vcard="http://www.w3.org/2001/vcard-rdf/3.0#">
   <a rel="license"
@@ -13,7 +13,7 @@ Materials from Intro to Bioinformatics lab, Winter offering at UC Davis (Jan-Mar
      href="http://twitter.com/ctitusbrown">
     <span property="dct:title">Titus Brown</span></a>
   has waived all copyright and related or neighboring rights to
-  <span property="dct:title">GGG 201(b), Winter 2020 at UC Davis</span>.
+  <span property="dct:title">GGG 201(b), Winter 2021 at UC Davis</span>.
 This work is published from:
 <span property="vcard:Country" datatype="dct:ISO3166"
       content="US" about="http://twitter.com/ctitusbrown">
@@ -30,24 +30,25 @@ In particular, this is not an intellectual contest, and please realize that we a
 ## Lab sessions
 
 What: hands-on computational work
+
 When: Friday 9-10:50am
-Where: Shields Library dungeon
+
+Where: Zooooooom!
 
 ## Homework
 
-There will be three homeworks, submitted via GitHub Classroom. Details TBA.
+There will be three homeworks, submitted via GitHub Classroom.
 
 Homeworks can be done collaboratively, but you need to hand it in individually.
 
 ## Grading and collaborative work
 
-I grade each homework P/F. The division of grading between labs and the rest of the course is in the whole course syllabus.
+I grade each homework S/U. The division of grading between labs and
+the rest of the course is in the whole course syllabus.
 
 ## Office hours
 
-Office hours to meet with Titus will be from 3-5pm on Wednesdays in CCAH 251; please use [this online signup sheet](https://calendly.com/ctitusbrown/office-hours). Don't worry too much about the specific time, this is just to signal to me that you want to talk to me (and puts it on my calendar!). (If no one signs up by 1pm of that Wednesday, I will feel free not to show up!)
-
-Note that Titus is busy on 1/15 between 3-5pm, and out of town on 2/26.
+Office hours to meet with Titus will be from 2-4pm on Tu/Th at http://zoom.us/my/titusbrown; please use [this online signup sheet](https://calendly.com/ctitusbrown/office-hours) to sign up!.
 
 ## Instructors
 
@@ -63,11 +64,12 @@ The overall learning goals for the lab are to:
 2. introduce the use of workflow management tools as a core aspect of biological data analysis.
 3. describe scientific issues surrounding data analysis techniques and processes, including statistical issues, reproducibility, provenance, and publication.
 
-In terms of technology, we'll be using the snakemake workflow system, running on the farm cluster. We'll touch briefly on git/GitHub and conda, but those topics will be gone into in much more detail in [GGG 298](https://github.com/ngs-docs/2020-GGG298/).
+In terms of technology, we'll be using the snakemake workflow system, running on the farm cluster. We'll touch briefly on git/GitHub and conda, but those topics will be gone into in much more detail in [GGG 298](https://github.com/ngs-docs/2021-GGG298/).
 
-## Schedule of lab topics
+## Lab topics
 
 1. 1/10 - [Intro; variant calling 1](lab-1.md)
+<!--
 2. 1/17 - [Variant calling 2 - now with more snakemake!](lab-2.md)
 3. 1/24 - [Variant calling 3 - conda, github, and snakemake](lab-3.md); [HW 1 assigned](lab-hw-1.md).
 4. 1/31 - [HW 1: Variant calling, due](lab-hw-1.md) --- TODAY'S NOTES: [Genome assembly 1](lab-4.md)
@@ -79,4 +81,4 @@ In terms of technology, we'll be using the snakemake workflow system, running on
 10. 2/28 - [HW 2: Assembly, due](lab-hw-2.md) - [RNAseq diff exp 1](https://github.com/ngs-docs/2020-ggg-201b-rnaseq)
 11. 3/06 - [RNAseq diff exp 2](lab-9.md)
 12. 3/13 - RNAseq diff exp 3
-
+-->
