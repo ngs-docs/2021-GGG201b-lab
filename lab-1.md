@@ -136,6 +136,7 @@ A few things to discuss:
 
 * these are just shell commands, with a bit of "decoration". You could run them yourself if you wanted!
 * order of the rules in the Snakefile doesn't matter
+* rules can have one or more shell commands
 * `snakemake -p` prints the command
 * `-j 1` says "use only one CPU"
 * `--use-conda` says to install software as specified.
@@ -143,6 +144,7 @@ A few things to discuss:
 * it's all case sensitive...
 * tabs and spacing matter.
 * why are the files named the way they are?
+* if you tell snakemake what software a step needs, it will install that software for you (and manage it for you)
 
 Some foreshadowing:
 
