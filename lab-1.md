@@ -1,22 +1,15 @@
 ---
-tags: ggg, ggg2020, ggg201b
+tags: ggg, ggg2021, ggg201b
 ---
 
 [toc]
 
-# GGG 201b, jan 2020 - lab 1 - NOTES
+# GGG 201b, jan 2021 - lab 1 - NOTES
 
 ## Friday Lab Outline - 1/10
 
-* introductions
+* introductions and a short presentation
 * [syllabus](https://hackmd.io/YaM6z84wQeK619cSeLJ2tg)
-* goals of this course
-    * how this course will differ from previous years
-    * how this course will differ from GGG 298
-    * how this course will differ from other courses
-* [signing up for a farm account](https://github.com/dib-lab/dib_rotation/blob/master/01_farm_account.md)
-    * [generating a key pair in windows](https://docs.computecanada.ca/wiki/Generating_SSH_keys_in_Windows/en) using mobaxterm
-* auditing
 * our first workflow: variant calling!!!!!!
 
 ## Day 1: Variant Calling
@@ -28,13 +21,13 @@ learning goals:
 
 ### A very brief discussion of variant calling
 
-Lots of whiteboarding goes here!
+(Back to the presentation)
 
 ### Start a binder
 
-https://github.com/ngs-docs/2020-ggg-201b-variant-calling
+https://github.com/ngs-docs/2021-ggg-201b-variant-calling
 
-[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/ngs-docs/2020-ggg-201b-variant-calling/master)
+[![Binder](https://mybinder.org/badge_logo.svg)](https://binder.pangeo.io/v2/gh/ngs-docs/2021-ggg-201b-variant-calling/week1?urlpath=rstudio)
 
 wait 20 or 30 seconds...
 
@@ -45,10 +38,9 @@ wait 20 or 30 seconds...
 PS1='$ '
 ```
 
-
 ### Run some stuff!
 
-There are lots of "rules" in the Snakefile [(view it on GitHub, too)](https://github.com/ngs-docs/2020-ggg-201b-variant-calling/blob/5fe29045b3741661b551682a326689cd66cd6f6a/Snakefile)! Try:
+There are lots of "rules" in the Snakefile [(view it on GitHub, too)](https://github.com/ngs-docs/2021-ggg-201b-variant-calling/week1/Snakefile)! Try:
 
 ```
 grep rule Snakefile
