@@ -1,0 +1,23 @@
+201(b) -
+
+recap Friday - here's the workflow, here's how we ran some of it
+
+what snakemake does: make sure all the commands are run successfully, as well as a lot more
+
+snakemake starts, and looks at the Snakefile configuration file
+this contains:
+
+* Python code
+* rules
+each rule block contains:
+* shell command
+* potentially "needed software" 
+* and more
+snakemake checks that the command succeeded
+will also do more, than that and that's what we'll talk about in lab 2
+
+(list of things in the lab-1)
+
+what we're going to do next Friday:
+- re work the Snakefile to have input, output
+- using an editor (nano)
