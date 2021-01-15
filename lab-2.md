@@ -119,7 +119,7 @@ A few quick notes:
 * rule names can be any valid variable, which basically means letters and underscores; you can use numbers after a first character.
 * you can make lists for multiple input or output files by separating filenames with a comma
 
-### Rewritign the rules to have less duplication by using `{input}` and `{output}`
+### Rewriting the rules to have less duplication by using `{input}` and `{output}`
 
 If you look at the rules, you'll see that input and output filenames are
 specified multiple times. That's rude! (And potentially confusing, if you
@@ -143,18 +143,24 @@ You can do the same with `{input}`.
 How would you fix the rules `download_genome` and `map_reads` to have
 shell commands that make use of `{input}` and `{output}`?
 
+Note: you can rerun everything by doing `rm *.sam *.gz` followed by
+```
+snakemake -j 1 --use-conda map_reads
+```
+
 ### In-class exercise C
 
-How would you fix the rules `index_genome_bwa` and `map_reads` to have the appropriate input: and output:?
+How would you fix the rules `sam_to_bam`, `sort_bam` and `call_variants` to have the appropriate input: and output:, and `{input}` and `{output}`?
 
 Hint: look at the shell command for those rules.
 
 ### Running lots of commands all at once
 
-If you've fixed the rules `index_genome_bwa` and `map_reads`, you should be able to run everything up to the rule `samtools_sort` by just specifying `samtools_sort` - try it!
+If you've fixed the rules properly, you should be able to run everything up to the rule ``call_variants` by just specifying `call_variants` - try it!
 
 ```
-snakemake -p samtools_sort
+rm *.gz *.sam
+snakemake -p -j 1 --use-conda call_variants
 ```
 
 (This can also be a good way to check to make sure you have all the output: information right, because you'll have files left over if you forgot to put them in output: :)
@@ -163,42 +169,39 @@ snakemake -p samtools_sort
 
 You can tell snakemake to delete everything it knows how to make for a particular rule (including all preceding rules) by running
 ```
-snakemake --delete-all-output samtools_sort
+snakemake --delete-all-output call_variants
 ```
 
 ### Using filenames instead of rule names
 
-You don't actually need to use the rule names (this will be important later on!). You can just tell snakemake what file you want produced, and run that.
+You don't actually need to use the rule names (this will be important
+later on!). You can just tell snakemake what file you want produced,
+and run that.
 
 So:
 ```
-snakemake -p SRR2584857.sorted.bam
+snakemake -p -j 1 --use-conda SRR2584857_1.ecoli-rel606.vcf
 ```
-will also work to run the rule `samtools_sort`, but you don't have to remember the rule name (which can be arbitrary...)
+will also work to run the rule `call_variants`, but you don't have to remember the rule name.
 
-### In-class exercise C
-
-Add appropriate input: and output: information to rule `samtools_index_sorted`.
-
-### Running the whole workflow!
-
-And now you should be able to run `snakemake -p make_vcf`.
+(Later on we'll see why this is important for other things.)
 
 ### Bonus: create a default rule
 
 By default, if you don't specify a rule snakemake runs the first rule in the file.  (This is actually the only case where the order of rules in the Snakefile matters!)
 
-So it's conventional to define a rule named `all` at the top; try it! Add with `nano -ET4 Snakefile`,
+So it's conventional to define a rule named `all` at the top; try it!
 
 ```
 rule all:
     input:
-        "variants.vcf"
+        "SRR2584857_1.ecoli-rel606.vcf"
 ```
 
 Question: why specify the _input_ for this rule, and no output or shell command!?
 
-(Yeah, it's just a cute trick that matches the way computers think.)
+(There's no good reason. it's just a cute trick that matches the way
+snakemake thinks. :shrug:)
 
 ### snakemake recap
 
@@ -207,10 +210,22 @@ Question: why specify the _input_ for this rule, and no output or shell command!
 * At the moment (and in general), they run shell commands
 * You can "decorate" the rules to tell snakemake how they depend on each other.
 * This decoration comes in the form of "input:" and "output:" lists of one vor more files, quoted, separated by commas.
-* and this is how you connect rules: by saying which rules take which files as inputs and/or produce what outputs.
+* You can then use `{input}` and `{output}` in your shell commands, too!
+* input and output are how you connect rules: by saying which rules take which files as inputs and/or produce what outputs.
 * Snakemake cares about tabs :)
 
 ...and why is this all useful, anyway? We'll explore that in a bit more detail next Friday!
+
+### Reminder
+
+Once you're done creating that sorted bam file, you can also run
+
+```
+samtools index SRR2584857_1.ecoli-rel606.bam.sorted
+samtools tview -p ecoli:4314717 --reference ecoli-rel606.fa SRR2584857_1.ecoli-rel606.bam.sorted
+```
+
+to actually _look_ at the aligned reads."
 
 ### Shotgun sequencing
 
