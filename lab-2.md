@@ -10,6 +10,7 @@ tags: ggg, ggg2021, ggg201b
 
 Outline:
 * more variant calling with more snakemake!!
+* shotgun sequencing: process and assumptions
 
 ## Day 2: More variant calling with more snakemake
 
@@ -37,47 +38,38 @@ PS1='$ '
 
 The `Snakefile` contains rules that we can run by name, e.g.
 ```
-snakemake -p download_genome
+snakemake -p -j 1 --use-conda download_genome
 ```
-This runs the shell command to download a genome, which
+This runs the shell command in that rule to download a genome, which
 is
 ```
 wget https://osf.io/4rdza/download -O SRR2584857_1.fastq.gz
 ```
-and the `-p` says to print out the command(s) being run, which are normally omitted by snakemake.
+and the `-p` says to print out the command(s) being run, which are normally omitted by snakemake; the `-j 1` says to use only one CPU (more on that later); and the `--use-conda` says to install any necessary software.
 
 But what if we want to run all the commands at once?
 It gets annoying to run each command individually:
 
 ```
-snakemake -p download_genome
-snakemake -p uncompress_genome
-snakemake -p index_genome_bwa
-snakemake -p map_reads
-snakemake -p index_genome_samtools
-snakemake -p samtools_import
-snakemake -p samtools_sort
-snakemake -p samtools_index_sorted
-snakemake -p samtools_mpileup
-snakemake -p make_vcf
+snakemake -p -j 1 --use-conda download_data
+snakemake -p -j 1 --use-conda download_genome
+snakemake -p -j 1 --use-conda map_reads
+snakemake -p -j 1 --use-conda sam_to_bam
+snakemake -p -j 1 --use-conda sort_bam
+snakemake -p -j 1 --use-conda call_variants
 ```
-when really all we want do is reach the end point, which is `make_vcf`, which produces a variant call file.
+when really all we want do is reach the end point, which is `call_variants`, which produces a variant call file!
 
 ### Upgrading our Snakefile by adding 'output:'
 
-Run 
-```
-nano -ET4 Snakefile
-```
-(reminder, CTRL-X, yes, to save!)
-
-and add
+Edit the snakefile in RStudio, and add
 ```
     output: "SRR2584857_1.fastq.gz"
 ```
-to the `download_data` rule before the `shell:` line.
+to the `download_data` rule before the `shell:` line. Be sure to get the
+indentation right - it needs to be at the same level as `conda:` and `shell:`!
 
-And try running the rule: `snakemake -p download_data`
+And try running the rule: `snakemake -p -j 1 --use-conda download_data`
 
 Run it twice. Hey look, it doesn't do anything the second time! Why??
 
@@ -92,32 +84,32 @@ To the `download_genome` rule, add:
     output: "ecoli-rel606.fa.gz"
 ```
 
-and to the `uncompress_genome` rule, add:
+and to the `map_reads` rule, add:
 
 ```
-    input: "ecoli-rel606.fa.gz"
+    input: ref="ecoli-rel606.fa.gz", reads="SRR2584857_1.fastq.gz"
 ```
 
 What does this do?
 
-This tells snakemake that `uncompress_genome` depends on having the input file `ecoli-rel606.fa.gz` in this directory, and that `download_genome` can produce it.
+This tells snakemake that `map_reads` depends on having the input files `ecoli-rel606.fa.gz` and `SRR2584857_1.fastq.gz` in this directory, and that `download_genome` can produce it!!
 
-What's extra cool is that snakemake will now automatically run the rule that outputs this file (which is `download_genome`) before running `uncompress_genome`!
+What's extra cool is that snakemake will now automatically run the rule that outputs this file (which is `download_genome`) before running `map_reads`!
 
 Try it:
 
 ```
-snakemake -p download_genome
+snakemake -p map_reads
 ```
-and you'll see that it runs two things: first the download_genome rule, then the uncompress_genome rule.
+and you'll see that it runs two things: first the `download_genome` rule, then the `map_reads` rule.
 
-What is the output of the rule `uncompress_genome` and how would you find that out in general?
+What is the output of the rule `map_reads` and how would you find that out in general?
 
 ### In-class exercise A
 
-Add "output:" with the correct filename to the rule `uncompress_genome`.
+Add "output:" with the correct filename to the rule `map_reads`.
 
-Hint: look at what changes in the directory when you run the command. You can use the Jupyter console window, or you can do `ls -l --sort=time` after running the rule.
+Hint: look at what changes in the directory when you run the command. You can use the RStudio terminal window, or you can do `ls -l --sort=time` after running the rule.
 
 ### Formatting snakefiles
 
@@ -127,7 +119,31 @@ A few quick notes:
 * rule names can be any valid variable, which basically means letters and underscores; you can use numbers after a first character.
 * you can make lists for multiple input or output files by separating filenames with a comma
 
+### Rewritign the rules to have less duplication by using `{input}` and `{output}`
+
+If you look at the rules, you'll see that input and output filenames are
+specified multiple times. That's rude! (And potentially confusing, if you
+change the `input:` block and forget to change the `shell:` block, or
+something.)
+
+Luckily, snakemake lets you use *template variables* in the `shell:` block
+so that you can just say `{output}` and it will figure out what to put there.
+
+For `download_data`, change the shell command to be:
+```
+wget https://osf.io/4rdza/download -O {output}
+```
+
+(This will also help us out later in other ways, as you'll see!)
+
+You can do the same with `{input}`.
+
 ### In-class exercise B
+
+How would you fix the rules `download_genome` and `map_reads` to have
+shell commands that make use of `{input}` and `{output}`?
+
+### In-class exercise C
 
 How would you fix the rules `index_genome_bwa` and `map_reads` to have the appropriate input: and output:?
 
