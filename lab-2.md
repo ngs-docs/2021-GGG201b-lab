@@ -99,7 +99,8 @@ What's extra cool is that snakemake will now automatically run the rule that out
 Try it:
 
 ```
-snakemake -p map_reads
+rm *.gz *.sam
+snakemake -p -j 1 --use-conda map_reads
 ```
 and you'll see that it runs two things: first the `download_genome` rule, then the `map_reads` rule.
 
@@ -169,7 +170,7 @@ snakemake -p -j 1 --use-conda call_variants
 
 You can tell snakemake to delete everything it knows how to make for a particular rule (including all preceding rules) by running
 ```
-snakemake --delete-all-output call_variants
+snakemake -j 1 --delete-all-output call_variants
 ```
 
 ### Using filenames instead of rule names
