@@ -71,7 +71,7 @@ At any time, do the following to save changes.
 
 ```
 git commit -am "updated Snakefile"
-git push origin master
+git push origin main
 ```
 (you can do this as many times as you want, and save intermediate changes, etc. etc.)
 
