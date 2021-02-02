@@ -29,15 +29,25 @@ Change into that directory:
 ```
 cd 201b-lab-hw1/
 ```
+**You'll need to do this every time you log in.**
 
 ## 3. Create and activate the `vc` conda environment.
 
 (Estimate: 15 minutes)
 
+First, create the 'vc' conda environment, which is a collection of the
+software you'll need in order to run the workflow:
+
 ```
 conda env create -n vc -f environment.yml
+```
+**You only need to do this once.**
+
+Then, activate the environment --
+```
 conda activate vc
 ```
+**You'll need to run this every time you log in.**
 
 and make sure you can successfully run the current workflow:
 
