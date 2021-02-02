@@ -69,7 +69,8 @@ In terms of technology, we'll be using the snakemake workflow system, running on
 ## Lab topics
 
 1. 1/8 - [Intro; variant calling 1](lab-1.md)
-1. 1/15 - [More snakemake; variant calling 1](lab-2.md)
+2. 1/15 - [More snakemake; variant calling 1](lab-2.md)
+3. 1/22 - [Sequencing, and variant calling](lab-3.md)
 <!--
 2. 1/17 - [Variant calling 2 - now with more snakemake!](lab-2.md)
 3. 1/24 - [Variant calling 3 - conda, github, and snakemake](lab-3.md); [HW 1 assigned](lab-hw-1.md).
