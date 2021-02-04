@@ -85,7 +85,14 @@ git push origin main
 ```
 (you can do this as many times as you want, and save intermediate changes, etc. etc.)
 
+One important note is that the only thing you should put in github are
+the updated configuration files (Snakefile, in this case). All of the
+generated files can be reproduced from the repo and so you don't need
+to add them.
+
 ## 6. Relax in knowledge of a job well done.
+
+(Please do inspect the Snakefile on github to make sure it has all your changes!)
 
 ## Questions? Problems?
 
