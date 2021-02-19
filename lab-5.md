@@ -1,7 +1,7 @@
 ---
 tags: ggg, ggg2021, ggg201b
 ---
-# Lab 5 outline - assembly! GGG 201(b) lab, Jan 29, 2021
+# Lab 5 outline - assembly! GGG 201(b) lab, Feb 5, 2021
 
 ## Can't log into farm?
 
